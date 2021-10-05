@@ -1,4 +1,10 @@
-<ul class="engagement" data-controller="toggle-engagement engagement-assignment" data-engagement-assignment-engagementId="<%= engagement.id %>" id="engagement-ul-<%= engagement.id %>">
+<ul
+  class="engagement"
+  id="engagement-ul-<%= engagement.id %>"
+  data-engagement-assignment-hide-class="u-none"
+  data-toggle-engagement-hide-class="u-none"
+  data-controller="toggle-engagement engagement-assignment"
+>
   <%= render partial: 'engagement_header', locals: { engagement: engagement } %>
   <%= render partial: 'engagement_body', locals: { engagement: engagement } %>
 </ul>

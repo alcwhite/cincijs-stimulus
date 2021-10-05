@@ -2,20 +2,40 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["engagementBody"]
+  static classes = ["hide"]
+  static values = {
+    displayed: { type: Boolean, default: false },
+    all: { type: Boolean, default: false }
+  }
+
+  get hiddenText() { return "Show" }
+  get shownText() { return "Hide" }
+  get allHiddenText() { return "Show all" }
+  get allShownText() { return "Hide all" }
+  get displayHiddenText() { return "hidden" }
+  get displayShownText() { return "shown" }
+  get displayAttrName() { return "data-display" }
+  get toggleButtonGroupClass() { return ".toggle-button__group" }
+  get groupButton() { return document.querySelector(this.toggleButtonGroupClass) }
 
   toggle(event) {
-    event.target.innerText = event.target.innerText == "Show" ? "Hide" : "Show"
-    event.target.getAttribute("data-display") === "hidden" ? event.target.setAttribute("data-display", "shown") : event.target.setAttribute("data-display", "hidden")
-
-    this.engagementBodyTarget.classList.toggle("u-none")
-    const groupButton = document.querySelector(".toggle-button__group")
-
-    if (Array.from(document.querySelectorAll(".toggle-button__ind")).some(button => button.getAttribute("data-display") === "hidden")) {
-      groupButton.innerText = "Show All"
-      groupButton.setAttribute("data-display", "hidden")
+    if (this.displayedValue) {
+      this.displayedValue = false
+      event.target.innerText = this.hiddenText
+      event.target.setAttribute(this.displayAttrName, this.displayHiddenText)
     } else {
-      groupButton.innerText = "Hide All"
-      groupButton.setAttribute("data-display", "shown")
+      this.displayedValue = true
+      event.target.innerText = this.shownText
+      event.target.setAttribute(this.displayAttrName, this.displayShownText)
+    }
+
+    this.engagementBodyTarget.classList.toggle(this.hideClass)
+    if (this.application.controllers.filter(c => c.identifier === this.identifier).some(c => !c.displayedValue)) {
+      this.groupButton.innerText = this.allHiddenText
+      this.groupButton.setAttribute(this.displayAttrName, this.displayHiddenText)
+    } else {
+      this.groupButton.innerText = this.allShownText
+      this.groupButton.setAttribute(this.displayAttrName, this.displayShownText)
     }
   }
 }

@@ -186,6 +186,10 @@ body {
       grid-row: 1;
     }
 
+    &__dragging {
+      opacity: 0.4;
+    }
+
     &__fill {
       background-color: whitesmoke;
       color: black;

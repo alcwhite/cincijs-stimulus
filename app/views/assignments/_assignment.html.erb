@@ -12,7 +12,7 @@
       <% end %>
     </div>
   <% end %>
-  <div class="assignment__timeline" data-controller="drag-assignment-week" data-drag-assignment-week-selected-class="timeline__selected">
+  <div class="assignment__timeline" data-controller="drag-assignment-week" data-drag-assignment-week-assignment-id-value="<%= assignment.id %>" data-drag-assignment-week-selected-class="timeline__selected" data-drag-assignment-week-dragging-class="timeline__selected timeline__dragging">
     <ul class="timeline">
       <% 0.upto(total_weeks - 1) do |week| %>
         <% assignment_week = assignment.assignment_weeks.detect { |aw| aw.week == grid_dates[week] } %>
