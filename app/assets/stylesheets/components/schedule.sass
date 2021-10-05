@@ -1,0 +1,309 @@
+$text-shadow-color: #f6f6f6
+$cell-width: 108px
+$cell-height: $cell-width / 2
+
+// Project Colors
+@mixin project-colors($n, $color)
+  &:nth-child(7n+#{$n})
+    th.project-title .color-bar
+      right: 0px
+      top: 0px
+      position: absolute
+      width: 5px
+      height: 100%
+      background-color: $color
+    div.assignment
+      background-color: $color
+      $top-color: $color
+      $bottom-color: darken($top-color, 7)
+      background: linear-gradient(top, $top-color, $bottom-color)
+      border: 1px solid darken($color, 14)
+
+#main
+  max-width: 75em
+
+.hidden
+  display: none
+
+table.schedule
+  table-layout: fixed
+  width: 100%
+  border: none
+  border-collapse: collapse
+  *
+    font-size: 13px
+  td
+    padding: 0
+  tr.project
+    border-bottom: 1px solid #dedede
+    &:last-child
+      border: none
+  tbody
+    td:nth-child(even)
+      background-color: white
+    td:nth-child(odd)
+      background-color: #fbfafa
+  th:nth-child(2) div
+    border-left-radius: 10px
+  th:last-child div
+    border-right-radius: 10px
+  tr.project:nth-child(2)
+    th
+      border-top-left-radius: 10px
+    td:last-child
+      border-top-right-radius: 10px
+
+table.schedule.show-hidden-projects
+  tr.project.hidden
+    display: table-row
+    opacity: 0.5
+    td
+      background-color: rgba(200, 200, 200, 0.5)
+
+body.schedules
+  table thead
+    background-color: transparent
+    text-align: center
+    div
+      padding: 3px
+      margin-bottom: 0.25em
+    a
+      margin-bottom: 0.25em
+    a.copy-week
+      display: block
+      padding: 10px
+
+  thead th.project
+    text-align: center
+    color: #bf9437
+    text-shadow: 0px 1px $text-shadow-color
+    padding: 0px 10px 0px 10px
+
+  th.date
+    width: $cell-width
+    padding: 0
+    text-align: center
+    div
+      position: relative
+      background-color: #84e4dd
+      color: #6caea8
+      text-shadow: 0px 1px $text-shadow-color
+
+  #left-arrow, #right-arrow
+    top: 2px
+    position: absolute
+
+  #left-arrow
+    left: 0
+
+  #right-arrow
+    right: 0
+
+  th.project-title
+    @extend .overflow-ellipsis
+    text-align: left
+    position: relative
+    padding-left: 0.75em
+    padding-right: 0.75em
+    height: $cell-height + 1 // +1 for the borders
+    color: #919191
+    text-shadow: 0px 1px #fff
+    background-color: #fbfafa
+    a.hide-project
+      position: absolute
+      right: 0.5em
+      display: none
+      background-color: rgba(255,255,255,0.8)
+      padding: 0 5px
+      color: #F30089
+    &:hover
+      a.hide-project
+        display: inline
+
+  // Reset Foundation Style
+
+  table.schedule tfoot tr td
+    font-weight: normal
+  table.schedule tfoot
+    background-color: transparent
+
+  // Highlighting the current week
+
+  table.schedule
+    th.date
+      &.current
+        div
+          background-color: darken(#84e4dd, 12)
+          color: #666
+    tr.project
+      td.current-week
+        background-color: lighten(yellow, 45)
+      td.active-week
+        background-image: image-url('struckaxiom_@2X.png')
+        background-color: #92E1C0
+      td.forecasted-week
+        background-image: image-url('struckaxiom_@2X.png')
+        background-color: #E1C092
+    tr.bench
+      td.current-week
+        background-color: desaturate(lighten(yellow, 45), 45)
+
+  ul.people
+    list-style: none
+    float: left
+    padding-top: 1em
+
+  div.assignment, li.person, li.need
+    padding: 5px
+    width: $cell-width / 2
+    height: $cell-height
+    img
+      border-radius: 3px
+
+  .overflow-ellipsis
+    white-space: nowrap
+    text-overflow: ellipsis
+    overflow: hidden
+
+  div.assignment, li.person, li.need
+    span.name
+      color: white
+      font-weight: 500
+      position: absolute
+      bottom: 5px
+      right: 5px
+      background-color: rgba(0,0,0,0.3)
+      text-align: right
+      padding: 0px 3px
+      font-size: 12px
+      line-height: 1.1
+
+  div.assignment
+    height: $cell-height
+    position: relative
+    background-color: red
+    color: white
+    cursor: move
+    $top-color: #4e7ed1
+    $bottom-color: darken($top-color, 10)
+    background: linear-gradient(top, $top-color, $bottom-color)
+    display: inline-block
+    a
+      display: block
+      color: white
+      background-color: rgba(0,0,0,0.4)
+      font-weight: bold
+      font-size: 17px
+      position: absolute
+      padding: 2px
+      padding-bottom: 6px
+      top: -1px
+      right: -1px
+      line-height: 0.42
+    img.blank
+      visibility: hidden
+
+  li.person, li.need
+    @extend .overflow-ellipsis
+    border-radius: 3px
+    float: left
+    cursor: move
+    border: 1px solid #efefef
+    margin-bottom: 5px
+    $top-color: lighten(#4e7ed1, 39)
+    $bottom-color: darken($top-color, 4)
+    background: linear-gradient(top, $top-color, $bottom-color)
+
+  tr.project
+    @include project-colors(1, #f19ccc)
+    @include project-colors(2, #69CA79)
+    @include project-colors(3, #f2e51b)
+    @include project-colors(4, #f2761b)
+    @include project-colors(5, #1bccf2)
+    @include project-colors(6, #d588f5)
+    @include project-colors(7, #88eff5)
+
+  // The Bench
+
+  tr.bench
+    border: none
+    border-top: 1px dashed #bbb
+    .hide, .show
+      font-weight: 300
+    .hide
+      display: none
+    td
+      vertical-align: top
+      padding-bottom: 0.5em
+    th, td
+      background-color: #f5f4f4
+
+  tr.bench.show-all
+    .benched-person.hidden
+      display: inline-block
+    .show
+      display: none
+    .hide
+      display: inline-block
+
+  div.bench-count
+    margin-top: 5px
+    color: #aaa
+    border: 1px solid white
+    padding: 3px
+    margin: 4px
+    background-color: #fafafa
+    border-radius: 3px
+    .count
+      display: inline-block
+      background-color: #999
+      color: white
+      font-weight: bold
+      border-radius: 10px
+      padding: 2px 5px
+      line-height: 1
+
+  div.benched-person
+    display: inline-block
+    padding-right: 11px
+    position: relative
+    font-style: italic
+    margin-top: 5px
+    span
+      @extend .overflow-ellipsis
+      display: inline-block
+      max-width: $cell-width - 18px
+    a.hide-person, a.show-person
+      display: inline-block
+      position: absolute
+      visibility: hidden
+      top: -6px
+      right: -3px
+      padding: 3px
+      font-size: 16px
+      font-weight: bold
+      color: #F30089
+      line-height: 1
+    &:hover a.hide-person
+      visibility: visible
+    &:last-child
+      border: none
+      margin: none
+
+  div.benched-person.hidden
+    display: none
+    color: #999
+    background: white
+    opacity: 1
+    a.hide-person
+      visibility: hidden
+    a.show-person
+      visibility: visible
+
+#show-all-projects
+  display: block
+
+#pairing-sidebar
+  float: right
+  div
+    margin-bottom: 2em

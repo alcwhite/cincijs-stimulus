@@ -1,0 +1,9 @@
+<div class="assignment__role role role--footer">
+</div>
+<div class="assignment__timeline">
+  <ul class="timeline timeline--footer">
+    <% 1.upto(total_weeks) do |week| %>
+      <li class="timeline__empty <%= this_week_class(grid_dates[week - 1]) %>" style="grid-column:<%= week %>;">  </li>
+    <% end %>
+  </ul>
+</div>

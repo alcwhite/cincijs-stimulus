@@ -1,0 +1,36 @@
+<li class="assignment" id="assignment-li-<%= assignment.id %>">
+  <%= turbo_frame_tag dom_id(assignment), class: "assignment__role role" do %>
+    <span><%= assignment.person_name %></span>
+    <div class="role__details">
+      <% unless assignment.id == "bench" || assignment.id == 0 %>
+        <span>
+          <%= link_to 'Edit', "" %>
+        </span>
+        <span>
+          <%= button_to 'Delete', "", method: :delete, class: "btn-link" %>
+        </span>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="assignment__timeline" data-controller="drag-assignment-week", data-action="dragstart->drag-assignment-week#dragstart dragenter->drag-assignment-week#dragenter drop->drag-assignment-week#drop dragend->drag-assignment-week#dragend">
+    <ul class="timeline">
+      <% 0.upto(total_weeks - 1) do |week| %>
+        <% assignment_week = assignment.assignment_weeks.detect { |aw| aw.week == grid_dates[week] } %>
+        <% assignment_week ||= AssignmentWeek.new(assignment: assignment, week: grid_dates[week]) %>
+        <% track = assignment_week.new_record? ? '__empty' : '__fill' %>
+        <%= turbo_frame_tag assignment_week_dom_id(assignment_week), role: "listitem", class: "timeline__grid-cell #{this_week_class(grid_dates[week])}", style: "grid-column: #{week + 1}" do %>
+          <% if assignment_week.new_record? %>
+            <%= render partial: 'assignment_weeks/timeline_empty_cell', locals: {assignment_id: assignment.id, week: grid_dates[week]} %>
+          <% else %>
+            <%= render partial: 'assignment_weeks/assignment_week', object: assignment_week %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ul>
+    <%= form_for :assignment_week, url: copy_week_assignment_weeks_path(format: :turbo_stream), method: :post, html: { data: { drag_assignment_week_target: "form" } } do |f| %>
+        <%= f.hidden_field :assignment_id, value: assignment.id, data: { drag_assignment_week_target: "assignmentId" }  %>
+        <%= f.hidden_field :source_week, value: nil, data: { drag_assignment_week_target: "sourceWeek" } %>
+        <%= f.hidden_field :destination_week, value: nil, data: { drag_assignment_week_target: "destinationWeek" } %>
+    <% end %>
+  </div>
+</li>

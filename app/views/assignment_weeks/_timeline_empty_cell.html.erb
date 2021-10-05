@@ -1,0 +1,8 @@
+<span class="timeline__empty <%= this_week_class(week) %>" draggable=true data-assignmentid='<%="#{assignment_id}"%>' data-week='<%="#{week}"%>' data-drag-assignment-week-target="cell">
+  <% unless assignment_id == 0 || assignment_id == "bench" %>
+    <%= link_to "add new", 
+      "", 
+      class: "new-assignment-week-link" 
+    %>
+  <% end %>
+</span>

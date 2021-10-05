@@ -1,0 +1,35 @@
+<li class="assignment" id="engagement-li-<%= engagement.id %>">
+  <%= turbo_frame_tag dom_id(engagement), class: "assignment__role role role--header" do %>
+    <% if engagement.id == "bench" || engagement.id == 0 %>
+      <%= engagement.name %>
+    <% else %>
+      <%= link_to engagement.name, "", data: { turbolinks: false } %>
+    <% end %>
+    <div class="role__details">
+      <span>Role</span>
+
+      <span class="cursor--pointer toggle-button__ind" data-display="hidden" data-action="click->toggle-engagement#toggle">Show</span>
+    </div>
+  <% end %>
+  <div class="assignment__timeline">
+    <ul class="timeline timeline--header">
+      <!-- / the style attribute is how the track is getting positioned in the timeline
+           / adjust the grid-column value to move the track to the desired position
+           / the first value is which column the track starts on, the second value is which column it will end on
+           / each column represents one week -->
+      <!-- <%= start_date %>, <%= engagement.starts_on %>: <%= start_block(engagement.starts_on) %> -->
+      <!-- <%= end_date %>, <%= engagement.ends_on %>: <%= end_block(engagement.ends_on) %> -->
+      <li class="timeline__fill" style="grid-column:<%= start_block(engagement.starts_on) %>/<%= end_block(engagement.ends_on) %>;z-index: 2;">
+        <% unless engagement.id == "bench" || engagement.id == "0" %>
+          <%= engagement.display_starts_on %> - <%= engagement.display_ends_on %>
+        <% end %>
+      </li>
+
+      <!-- each cell needs to have its grid-column set so that that track will overlap the cells
+           each cell has its grid-column set to the week that it represents -->
+      <% 1.upto(total_weeks) do |week| %>
+        <li class="timeline__empty <%= this_week_class(grid_dates[week - 1]) %>" style="grid-column:<%= week %>;">  </li>
+      <% end %>
+    </ul>
+  </div>
+</li>

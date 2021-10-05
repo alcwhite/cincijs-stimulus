@@ -1,0 +1,44 @@
+form
+  input[type="text"], input[type="date"], input[type="password"], input[type="number"], select, textarea
+    @extend .form-control  !optional
+  input[type=submit]
+    @extend .btn  !optional
+    @extend .btn-primary !optional
+  textarea
+    min-height: 6em
+
+table
+  @extend .table !optional
+  @extend .table-hover !optional
+  tr.non-billable
+    background: lightgray
+  tr.on-bench
+    background: lightgray
+  tr.missing
+    background: lightpink
+  thead tr th
+    vertical-align: top
+    &[class^="sticky"]
+      background: #fff
+
+label
+  font-weight: 300
+  letter-spacing: 0.2pt
+
+.scorecard-header
+  display: flex
+  align-items: center
+
+.scorecard-header form
+  display: flex
+  width: 325px
+  margin-left: 1em
+
+  input[type=submit]
+    margin-left: 10px
+
+.client--repeat
+  background: pink
+
+.client--new
+  background: #6decb9

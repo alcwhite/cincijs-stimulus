@@ -1,0 +1,30 @@
+@import "elements";
+@import "utilities";
+@import "buttons";
+@import "typography";
+@import "components/*";
+
+body {
+  background-color: rgb(241, 242, 246)
+}
+
+h1, h2, h3, h5, h6 {
+    font-family: 'DINWeb';
+  font-weight: bold
+}
+
+h4{
+  font-family: 'DINWeb';
+  font-weight: 600
+}
+.container {
+  width: 95% !important;
+}
+.navbar, .navbar a {
+  font-family: 'DINWeb';
+  color: white
+}
+
+.navbar-brand > img {
+  display: inline-block
+}

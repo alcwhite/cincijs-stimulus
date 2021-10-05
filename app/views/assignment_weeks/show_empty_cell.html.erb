@@ -1,0 +1,5 @@
+<%= turbo_frame_tag assignment_week_dom_id(@new_assignment_week) do %>
+  <%= render partial: 'timeline_empty_cell',
+             locals: {assignment_id: @new_assignment_week.assignment_id,
+                      week: @new_assignment_week.week } %>
+<% end %>

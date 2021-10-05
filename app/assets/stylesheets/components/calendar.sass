@@ -1,0 +1,43 @@
+.month-indicator
+  display: flex
+  align-items: flex-start
+  margin-top: 20px
+
+.day-of-week, .date-grid
+  display: grid
+  grid-template-columns: repeat(7, 1fr)
+
+.date-grid
+  border: 1px solid lightgray
+
+.weekday
+  background: white
+
+.weekend
+  background-color: whitesmoke
+
+.date-number
+  font-weight: bold
+  text-align: center
+
+.date-content .date-content-footer
+  margin-top: 5px
+  padding-top: 5px
+  border-top: 1px solid lightgray
+
+.date-grid time
+  padding: 10px
+  border: 1px solid lightgrey
+  min-height: 195px
+
+.holiday, .holiday.date-content-footer
+  background: lightblue
+
+.today .date-number
+  background: #337ab7
+  color: #fff
+  border-radius: 4px
+
+.remaining-budget
+  display: block
+  border-radius: 4px

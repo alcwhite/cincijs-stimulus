@@ -1,0 +1,8 @@
+<%= form_with(model: assignment_week) do |form| %>
+  <span>
+    <%= form.hidden_field :assignment_id %>
+    <%= form.hidden_field :iteration_id %>
+    <%= form.hidden_field :week %>
+    <%= form.text_field :max_billable_hours, value: assignment_week.max_billable_hours.to_i, autofocus: "autofocus" %>
+  </span>
+<% end %>
