@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "scheduler" %>
 
-<div class="scheduler" data-controller="toggle-engagements">
+<div class="scheduler" data-controller="toggle-engagement" data-toggle-engagement-hide-class="u-none" data-toggle-engagement-all-value="true">
   <header class="assignment header">
     <div class="assignment__role header__role">
     </div>
@@ -13,7 +13,7 @@
     <div class="tabset">
       <input type="radio" name="tabset" id="tab1" aria-controls="current" checked>
       <label for="tab1">Current</label>
-      <button style="margin-left:auto;" data-display="hidden" class="toggle-button__group" data-action="click->toggle-engagements#toggleAll">Show all</button>
+      <button style="margin-left:auto;" data-display="hidden" class="toggle-button__group" data-toggle-engagement-target="button" data-action="click->toggle-engagement#toggle">Show all</button>
       <div class="tab-panels">
         <section id="current" class="tab-panel">
           <% @engagements.each do |engagement| %>

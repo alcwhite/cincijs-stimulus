@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["engagementBody"]
+  static targets = ["engagementBody", "button"]
   static classes = ["hide"]
   static values = {
     displayed: { type: Boolean, default: false },
@@ -12,30 +12,48 @@ export default class extends Controller {
   get shownText() { return "Hide" }
   get allHiddenText() { return "Show all" }
   get allShownText() { return "Hide all" }
-  get displayHiddenText() { return "hidden" }
-  get displayShownText() { return "shown" }
-  get displayAttrName() { return "data-display" }
-  get toggleButtonGroupClass() { return ".toggle-button__group" }
-  get groupButton() { return document.querySelector(this.toggleButtonGroupClass) }
+  get indButtons() { return this.application.controllers.filter(c => c.identifier === this.identifier && !c.allValue)}
+  get groupButton() { return this.application.controllers.find(c => c.identifier === this.identifier && c.allValue) }
 
-  toggle(event) {
+  toggle() {
     if (this.displayedValue) {
-      this.displayedValue = false
-      event.target.innerText = this.hiddenText
-      event.target.setAttribute(this.displayAttrName, this.displayHiddenText)
+      this.hide()
     } else {
-      this.displayedValue = true
-      event.target.innerText = this.shownText
-      event.target.setAttribute(this.displayAttrName, this.displayShownText)
+      this.show()
     }
+    
+    this.allValue ? this.updateAllButtons() : this.updateGroupButton()
+  }
 
-    this.engagementBodyTarget.classList.toggle(this.hideClass)
-    if (this.application.controllers.filter(c => c.identifier === this.identifier).some(c => !c.displayedValue)) {
-      this.groupButton.innerText = this.allHiddenText
-      this.groupButton.setAttribute(this.displayAttrName, this.displayHiddenText)
+  show() {
+    this.displayedValue = true
+    this.buttonTarget.innerText = this.allValue ? this.allShownText : this.shownText
+    this.hasEngagementBodyTarget && this.engagementBodyTarget.classList.remove(this.hideClass)
+  }
+
+  hide() {
+    this.displayedValue = false
+    this.buttonTarget.innerText = this.allValue ? this.allHiddenText : this.hiddenText
+    this.hasEngagementBodyTarget && this.engagementBodyTarget.classList.add(this.hideClass)
+  }
+
+  updateGroupButton() {
+    if (this.indButtons.some(c => !c.displayedValue)) {
+      this.groupButton.hide()
     } else {
-      this.groupButton.innerText = this.allShownText
-      this.groupButton.setAttribute(this.displayAttrName, this.displayShownText)
+      this.groupButton.show()
+    }
+  }
+
+  updateAllButtons() {
+    if (!this.displayedValue) {
+      this.indButtons.forEach(group => {
+        group.hide()
+      })
+    } else {
+      this.indButtons.forEach(group => {
+        group.show()
+      })
     }
   }
 }

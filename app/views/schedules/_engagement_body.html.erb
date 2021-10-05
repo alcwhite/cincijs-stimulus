@@ -1,4 +1,4 @@
-<div class="u-none" data-toggle-engagement-target="engagementBody" data-toggle-engagements-target="engagementBody" data-engagement-assignment-target="engagementBody">
+<div class="u-none" data-toggle-engagement-target="engagementBody" data-engagement-assignment-target="engagementBody">
   <%= render partial: 'assignments/assignment', collection: engagement.assignments.sort %>
   <%= turbo_frame_tag "add-assignment-#{engagement.id}", role: "listitem", class: "assignment" do %>
     <%= render partial: 'assignments/add_assignment', locals: {engagement: engagement} %>
