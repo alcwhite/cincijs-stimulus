@@ -2,10 +2,8 @@ import{ Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["form", "assignmentId", "sourceWeek", "destinationWeek", "cell"]
-  static classes = ["selected", "dragging"]
+  static classes = ["selected", "opacity"]
   static values = {
-    sourceWeek: String,
-    destinationWeek: String,
     assignmentId: Number
   }
 
@@ -13,8 +11,7 @@ export default class extends Controller {
   get destinationWeekDate() { return Date.parse(this.destinationWeek) }
 
   dragstart(event) {
-    event.target.classList.add(...this.draggingClasses)
-    this.assignmentId = this.assignmentIdTarget.value
+    event.target.classList.add(this.opacityClass)
     this.sourceWeek = event.params.week
     this.destinationWeek = this.sourceWeek
   }
@@ -29,10 +26,10 @@ export default class extends Controller {
 
   dragenter(event) {
     event.preventDefault();
-    if (this.assignmentId == event.params.assignmentid) {
+    if (this.assignmentIdValue == event.params.assignmentId) {
       this.destinationWeek = event.params.week
       this.cellTargets.forEach(cell => {
-        if (this.withinSelectedRange(cell.dataset.dragAssignmentWeekWeekParam)) {
+        if (this.withinSelectedRange(cell.dataset.week)) {
           cell.classList.add(this.selectedClass)
         } else {
           cell.classList.remove(this.selectedClass)
@@ -42,7 +39,7 @@ export default class extends Controller {
   }
   
   dragend(event) {
-    event.target.classList.remove(...this.draggingClasses)
+    event.target.classList.remove(this.opacityClass, this.selectedClass)
     if (this.sourceWeek !== this.destinationWeek) {
       this.sourceWeekTarget.value = this.sourceWeek
       this.destinationWeekTarget.value = this.destinationWeek

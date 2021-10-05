@@ -47,14 +47,6 @@ class AssignmentWeeksController < ApplicationController
 
   private
 
-  def render_empty_cell_or_redirect
-    if max_billable_hours.zero? && @assignment_week.time_entries.blank?
-      render 'show_empty_cell'
-    else
-      redirect_to @assignment_week
-    end
-  end
-
   def manage_assignment_week(week)
     return false unless assignment.engagement.iteration?(week)
 
@@ -83,11 +75,11 @@ class AssignmentWeeksController < ApplicationController
   end
 
   def source_week
-    @source_week ||= Date.parse(params[:assignment_week][:source_week] || params[:assignement_week][:week])
+    @source_week ||= Date.parse(params[:assignment_week][:source_week] || params[:assignment_week][:week])
   end
 
   def destination_week
-    @destination_week ||= Date.parse(params[:assignment_week][:destination_week] || params[:assignement_week][:week])
+    @destination_week ||= Date.parse(params[:assignment_week][:destination_week] || params[:assignment_week][:week])
   end
 
   def week
@@ -96,10 +88,6 @@ class AssignmentWeeksController < ApplicationController
 
   def ending_week
     @ending_week ||= source_week <= destination_week ? destination_week : source_week - 7.days
-  end
-
-  def week_increment
-    @week_increment ||= source_week <= destination_week ? 7.days : -7.days
   end
 
   def max_billable_hours
