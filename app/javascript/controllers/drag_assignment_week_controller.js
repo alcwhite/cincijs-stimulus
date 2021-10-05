@@ -2,30 +2,35 @@ import{ Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["form", "assignmentId", "sourceWeek", "destinationWeek", "cell"]
+  static classes = ["selected"]
+
+  get sourceWeekDate() { return Date.parse(this.sourceWeek) }
+  get destinationWeekDate() { return Date.parse(this.destinationWeek) }
 
   dragstart(event) {
     event.target.style.opacity = '0.4'
     this.assignmentId = this.assignmentIdTarget.value
-    this.source_week = event.target.dataset['week'] || event.target.parentElement.dataset['week']
-    this.destination_week = this.source_week
+    this.sourceWeek = event.params.week
+    this.destinationWeek = this.sourceWeek
   }
 
-  withinSelectedRange(cell) {
-    return (Date.parse(cell.dataset["week"]) >= Date.parse(this.source_week) && 
-              Date.parse(cell.dataset["week"]) <= Date.parse(this.destination_week)) 
-            || (Date.parse(cell.dataset["week"]) <= Date.parse(this.source_week) && 
-              Date.parse(cell.dataset["week"]) >= Date.parse(this.destination_week))
+  withinSelectedRange(week) {
+    const thisWeek = Date.parse(week)
+    return (thisWeek >= this.sourceWeekDate && 
+              thisWeek <= this.destinationWeekDate) 
+            || (thisWeek <= this.sourceWeekDate && 
+              thisWeek >= this.destinationWeekDate)
   }
 
   dragenter(event) {
     event.preventDefault();
-    if (this.assignmentId === event.target.dataset['assignmentid']) {
-      this.destination_week = event.target.dataset['week']
+    if (this.assignmentId == event.params.assignmentid) {
+      this.destinationWeek = event.params.week
       this.cellTargets.forEach(cell => {
-        if (this.withinSelectedRange(cell)) {
-          cell.classList.add("timeline__selected")
+        if (this.withinSelectedRange(cell.dataset.dragAssignmentWeekWeekParam)) {
+          cell.classList.add(this.selectedClass)
         } else {
-          cell.classList.remove("timeline__selected")
+          cell.classList.remove(this.selectedClass)
         }
       })
     }
@@ -33,10 +38,10 @@ export default class extends Controller {
   
   dragend(event) {
     event.target.style.opacity = '1'
-    event.target.classList.remove("timeline__selected")
-    if (this.source_week !== this.destination_week) {
-      this.sourceWeekTarget.value = this.source_week
-      this.destinationWeekTarget.value = this.destination_week
+    event.target.classList.remove(this.selectedClass)
+    if (this.sourceWeek !== this.destinationWeek) {
+      this.sourceWeekTarget.value = this.sourceWeek
+      this.destinationWeekTarget.value = this.destinationWeek
       this.formTarget.requestSubmit()
     }
     

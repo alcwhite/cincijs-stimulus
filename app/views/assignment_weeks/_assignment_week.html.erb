@@ -1,4 +1,4 @@
-<span class="timeline__fill" draggable=true data-assignmentid='<%="#{assignment_week.assignment_id}"%>' data-assignmentweekid='<%="#{assignment_week.id}" %>' data-week='<%="#{assignment_week.week}"%>' data-maxbillablehours='<%="#{assignment_week.max_billable_hours}"%>' data-drag-assignment-week-target="cell">
+<span class="timeline__fill" data-action="<%= action %>" <%= data_attrs(assignment_week) %>>
   <% unless assignment_week.id == "bench" || assignment_week.id == 0 %>
     <%= link_to assignment_week.max_billable_hours.to_i , "" %>
     <% if assignment_week.in_the_past? %>
