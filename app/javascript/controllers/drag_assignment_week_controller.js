@@ -29,11 +29,7 @@ export default class extends Controller {
     if (this.assignmentIdValue == event.params.assignmentId) {
       this.destinationWeek = event.params.week
       this.cellTargets.forEach(cell => {
-        if (this.withinSelectedRange(cell.dataset.week)) {
-          cell.classList.add(this.selectedClass)
-        } else {
-          cell.classList.remove(this.selectedClass)
-        }
+        cell.dispatchEvent(new CustomEvent("change-cell-selections"))
       })
     }
   }
@@ -45,6 +41,13 @@ export default class extends Controller {
       this.destinationWeekTarget.value = this.destinationWeek
       this.formTarget.requestSubmit()
     }
-    
+  }
+
+  maybeHighlight(event) {
+    if (this.withinSelectedRange(event.params.week)) {
+      event.target.classList.add(this.selectedClass)
+    } else {
+      event.target.classList.remove(this.selectedClass)
+    }
   }
 }
