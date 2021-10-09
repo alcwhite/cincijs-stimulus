@@ -9,7 +9,7 @@ window.Stimulus = application
 
 Stimulus.handleError = (error, message, detail) => {
   console.warn(message, detail)
-  ErrorTrackingSystem.captureException(error)
+  // ErrorTrackingSystem.captureException(error)
 }
 
 export { application }

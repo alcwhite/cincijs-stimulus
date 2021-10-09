@@ -40,7 +40,7 @@ export default class extends Controller {
     if (this.assignmentIdValue == event.params.assignmentId) {
       this.destinationWeek = event.params.week
       this.cellTargets.forEach((cell) => {
-        cell.dispatchEvent(new CustomEvent("change-cell-selections"))
+        this.dispatch("highlight", {target: cell})
       })
     }
   }

@@ -17,7 +17,7 @@
         <% assignment_week ||= AssignmentWeek.new(assignment: assignment, week: grid_dates[week]) %>
         <% track = assignment_week.new_record? ? '__empty' : '__fill' %>
         <%= turbo_frame_tag assignment_week_dom_id(assignment_week), role: "listitem", class: "timeline__grid-cell #{this_week_class(grid_dates[week])}", style: "grid-column: #{week + 1}" do %>
-          <% action = "dragstart->drag-assignment-week#dragstart dragenter->drag-assignment-week#dragenter dragend->drag-assignment-week#dragend change-cell-selections->drag-assignment-week#maybeHighlight" %>
+          <% action = "dragstart->drag-assignment-week#dragstart dragenter->drag-assignment-week#dragenter dragend->drag-assignment-week#dragend drag-assignment-week:highlight->drag-assignment-week#maybeHighlight" %>
           <% if assignment_week.new_record? %>
             <%= render partial: 'assignment_weeks/timeline_empty_cell', locals: {assignment_id: assignment.id, week: grid_dates[week], action: action} %>
           <% else %>

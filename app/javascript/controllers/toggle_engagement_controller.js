@@ -63,11 +63,11 @@ export default class extends Controller {
 
   updateAllButtons() {
     this.displayedValue
-      ? this.indButtons.forEach((group) => {
-          group.show()
+      ? this.indButtons.forEach((body) => {
+          body.show()
         })
-      : this.indButtons.forEach((group) => {
-          group.hide()
+      : this.indButtons.forEach((body) => {
+          body.hide()
         })
   }
 }
