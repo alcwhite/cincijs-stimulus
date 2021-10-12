@@ -6,17 +6,15 @@ export default class extends Controller {
   // this.cellTargets would return all cells in the row
   static targets = [
     "form",
-    "assignmentId",
     "sourceWeek",
     "destinationWeek",
     "cell",
   ]
   // accessed via this.nameClass or ...this.nameClasses
   static classes = ["selected", "opacity"]
-  // accessed via this.assignmentIdValue
-  // defaults can be set (eg, {assignmentId: {type: Number, default: 4}})
+  // accessed via this.dragStartedValue
+  // defaults are optional and can be overridden in the template with "data-#{identifier}-#{valueName}"
   static values = {
-    assignmentId: Number,
     dragStarted: {type: Boolean, default: false}
   }
 
@@ -30,7 +28,7 @@ export default class extends Controller {
   }
 
   // called on dragstart event
-  // event contains target (the cell being dragged) and params (set in template: {assignmentId: id, week: week})
+  // event contains target (the cell being dragged) and params (set in template: {week: week})
   dragstart(event) {
     // give source cell an opacity class to set it apart
     event.target.classList.add(this.opacityClass)
@@ -53,12 +51,11 @@ export default class extends Controller {
   }
 
   // called on dragenter event
-  // event contains target (the cell being dragged) and params (set in template: {assignmentId: id, week: week})
+  // event contains target (the cell being dragged) and params (set in template: {week: week})
   dragenter(event) {
     event.preventDefault()
     // check that we're on the same row, since each row will be able to call dragenter
-    if (this.assignmentIdValue == event.params.assignmentId) {
-      console.log(this.dragStartedValue, "drag started?")
+    if (this.dragStartedValue) {
       // sets destination week
       this.destinationWeek = event.params.week
       this.cellTargets.forEach((cell) => {
@@ -71,7 +68,7 @@ export default class extends Controller {
   }
 
   // called on dragend event
-  // event contains target (the cell being dragged) and params (set in template: {assignmentId: id, week: week})
+  // event contains target (the cell being dragged) and params (set in template: {week: week})
   dragend(event) {
     // removes selected/dragging classes from initial dragging target
     event.target.classList.remove(this.opacityClass, this.selectedClass)
@@ -88,7 +85,7 @@ export default class extends Controller {
   }
 
   // called on custom highlight event
-  // event contains target (the cell being dragged) and params (set in template: {assignmentId: id, week: week})
+  // event contains target (the cell being dragged) and params (set in template: {week: week})
   maybeHighlight(event) {
     if (this._withinSelectedRange(event.params.week)) {
       event.target.classList.add(this.selectedClass)

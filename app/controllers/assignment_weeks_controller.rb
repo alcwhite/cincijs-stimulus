@@ -17,14 +17,11 @@ class AssignmentWeeksController < ApplicationController
   private
 
   def manage_assignment_week(week)
-    # not a valid week, so skip it
+    # not a valid week for this assignment, so skip it
     return false unless assignment.engagement.iteration?(week)
 
     # find current week
     assignment_week = AssignmentWeek.find_by(assignment: assignment, iteration: iteration(week), week: week)
-
-    # non-existant week doesn't need to be deleted
-    return true if max_billable_hours.zero? && assignment_week.blank?
 
     # update the week
     destroy_or_update assignment_week
@@ -33,7 +30,7 @@ class AssignmentWeeksController < ApplicationController
   def destroy_or_update(assignment_week)
     if max_billable_hours.zero?
       # delete weeks with hours set to 0
-      assignment_week.destroy
+      assignment_week&.destroy
     else
       # create week if it doesn't exist yet
       assignment_week ||= AssignmentWeek.create(assignment: assignment, iteration: iteration(week), week: week)
@@ -45,6 +42,10 @@ class AssignmentWeeksController < ApplicationController
   def assignment
     # set current assignment/row
     @assignment ||= Assignment.find(assignment_week_params[:assignment_id])
+  end
+
+  def iteration(week)
+    assignment.engagement.iteration_on(week)
   end
 
   def source_week
@@ -60,7 +61,7 @@ class AssignmentWeeksController < ApplicationController
   def week
     # current week -- start with chronologically earlier week
     # don't update source_week with its own data
-    @week ||= source_week <= destination_week ? source_week +  : destination_week
+    @week ||= source_week <= destination_week ? source_week + 1.week : destination_week
   end
 
   def ending_week

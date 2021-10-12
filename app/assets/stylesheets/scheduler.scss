@@ -149,6 +149,10 @@ body {
     }
   }
 
+  div[data-drag-assignment-week-drag-started-value="true"] {
+    box-shadow: 0 0 10px 10px black;
+  }
+
   .timeline {
     display: grid;
       grid-template-columns: repeat(52, var(--cell-width));

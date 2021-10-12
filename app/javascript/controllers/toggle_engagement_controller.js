@@ -44,10 +44,10 @@ export default class extends Controller {
   // toggles the element
   toggle() {
     // if displayed, hide, else show
-    this.displayedValue ? this.hide() : this.show()
+    this.displayedValue ? this._hide() : this._show()
 
     // if this is a group button, update all buttons, else update group button
-    this.allValue ? this.updateAllButtons() : this.updateGroupButton()
+    this.allValue ? this._updateAllButtons() : this._updateGroupButton()
   }
 
   // internal: shows element
