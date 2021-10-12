@@ -1,9 +1,18 @@
+<%# 
+  represents an assignment row-- this id (assignment-li-#{id}) is what turbo looks for to replace the row
+%>
 <li class="assignment" id="assignment-li-<%= assignment.id %>">
   <%= turbo_frame_tag dom_id(assignment), class: "assignment__role role" do %>
     <span><%= assignment.person_name %></span>
     <div class="role__details">
     </div>
   <% end %>
+  <%# 
+    drag assignment week
+    instantiates a new drag-assignment-week controller for each row
+    sets assignmentIdValue on the controller
+    sets selectedClass and opacityClass on the controller
+  %>
   <div
     class="assignment__timeline"
     data-controller="drag-assignment-week"
@@ -17,15 +26,20 @@
         <% assignment_week ||= AssignmentWeek.new(assignment: assignment, week: grid_dates[week]) %>
         <% track = assignment_week.new_record? ? '__empty' : '__fill' %>
         <%= turbo_frame_tag assignment_week_dom_id(assignment_week), role: "listitem", class: "timeline__grid-cell #{this_week_class(grid_dates[week])}", style: "grid-column: #{week + 1}" do %>
-          <% action = "dragstart->drag-assignment-week#dragstart dragenter->drag-assignment-week#dragenter dragend->drag-assignment-week#dragend drag-assignment-week:highlight->drag-assignment-week#maybeHighlight" %>
           <% if assignment_week.new_record? %>
-            <%= render partial: 'assignment_weeks/timeline_empty_cell', locals: {assignment_id: assignment.id, week: grid_dates[week], action: action} %>
+            <%= render partial: 'assignment_weeks/timeline_empty_cell', locals: {assignment_id: assignment.id, week: grid_dates[week]} %>
           <% else %>
-            <%= render partial: 'assignment_weeks/assignment_week', object: assignment_week, locals: {action: action} %>
+            <%= render partial: 'assignment_weeks/assignment_week', object: assignment_week %>
           <% end %>
         <% end %>
       <% end %>
     </ul>
+    <%# 
+      drag assignment week
+      sets formTarget on the controller, as well as sourceWeekTarget and destinationWeekTarget
+      we already know assignment id, so we can set that now, and we don't need to access it later
+      this is the form we will fill out and submit at the end of our interaction
+    %>
     <%= form_for :assignment_week, url: copy_week_assignment_weeks_path(format: :turbo_stream), method: :post, html: { data: { drag_assignment_week_target: "form" } } do |f| %>
         <%= f.hidden_field :assignment_id, value: assignment.id %>
         <%= f.hidden_field :source_week, value: nil, data: { drag_assignment_week_target: "sourceWeek" } %>

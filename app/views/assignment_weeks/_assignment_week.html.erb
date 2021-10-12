@@ -1,3 +1,9 @@
+<%# 
+  drag assignment week
+  for a week with hours already set
+  sets actions for the controller (pulled out to helper due to length)
+  sets other data attributes (pulled out to helper due to length)
+%>
 <span class="timeline__fill" data-action="<%= action %>" <%= data_attrs(assignment_week) %>>
   <% unless assignment_week.id == "bench" || assignment_week.id == 0 %>
     <%= link_to assignment_week.max_billable_hours.to_i , "" %>

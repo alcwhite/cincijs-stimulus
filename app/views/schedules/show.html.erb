@@ -1,5 +1,12 @@
 <%= stylesheet_link_tag "scheduler" %>
 
+<%# 
+  toggle all button
+  instantiates toggle_engagement controller
+  sets allValue on this instance to true
+  sets hideClass to u-none
+  since this is a parent controller, it doesn't have access to actions/targets/classes set in nested controllers
+%>
 <div
   class="scheduler"
   data-controller="toggle-engagement"
@@ -18,9 +25,13 @@
     <div class="tabset">
       <input type="radio" name="tabset" id="tab1" aria-controls="current" checked>
       <label for="tab1">Current</label>
+      <%# 
+        toggle all button
+        sets this element as buttonTarget
+        sets click action to call #toggle on stimulus controller
+      %>
       <button
         style="margin-left:auto;"
-        data-display="hidden"
         class="toggle-button__group"
         data-toggle-engagement-target="button"
         data-action="click->toggle-engagement#toggle"
