@@ -11,7 +11,7 @@ export default class extends Controller {
     "cell",
   ]
   // accessed via this.nameClass or ...this.nameClasses
-  static classes = ["selected", "opacity"]
+  static classes = ["selected", "dragging"]
   // accessed via this.dragStartedValue
   // defaults are optional and can be overridden in the template with "data-#{identifier}-#{valueName}"
   static values = {
@@ -30,8 +30,6 @@ export default class extends Controller {
   // called on dragstart event
   // event contains target (the cell being dragged) and params (set in template: {week: week})
   dragstart(event) {
-    // give source cell an opacity class to set it apart
-    event.target.classList.add(this.opacityClass)
     // set sourceWeek on this controller
     this.sourceWeek = event.params.week
     // initially set destinationWeek to be same as sourceWeek
@@ -66,10 +64,11 @@ export default class extends Controller {
 
   // called on dragend event
   // event contains target (the cell being dragged) and params (set in template: {week: week})
-  dragend(event) {
-    // removes selected/dragging classes from initial dragging target
-    event.target.classList.remove(this.opacityClass, this.selectedClass)
+  dragend(_event) {
+    // sets draggingStarted value to false, so dragging from other rows won't affect this one
     this.dragStartedValue = false
+    // removes selected/dragging classes from initial dragging target
+    this.cellTargets.find(c => c.dataset.week === this.sourceWeek).classList.remove(...this.draggingClasses)
     // don't submit form when dropping a cell on itself 
     if (this.sourceWeek !== this.destinationWeek) {
       // set source and destination weeks on the form
@@ -84,7 +83,8 @@ export default class extends Controller {
   // internal: checks whether or not to highlight a cell
   _maybeHighlight(cell) {
     if (this._withinSelectedRange(cell.dataset.week)) {
-      cell.classList.add(this.selectedClass)
+      // adds dragging classes to source cell and selected class to all others
+      this.sourceWeek === cell.dataset.week ? cell.classList.add(...this.draggingClasses) : cell.classList.add(this.selectedClass)
     } else {
       cell.classList.remove(this.selectedClass)
     }

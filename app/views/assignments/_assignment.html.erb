@@ -10,13 +10,13 @@
   <%# 
     drag assignment week
     instantiates a new drag-assignment-week controller for each row
-    sets selectedClass and opacityClass on the controller
+    sets selectedClass and draggingClass on the controller
   %>
   <div
     class="assignment__timeline"
     data-controller="drag-assignment-week"
     data-drag-assignment-week-selected-class="timeline__selected"
-    data-drag-assignment-week-opacity-class="timeline__dragging"
+    data-drag-assignment-week-dragging-class="timeline__dragging timeline__selected"
   >
     <ul class="timeline">
       <% 0.upto(total_weeks - 1) do |week| %>

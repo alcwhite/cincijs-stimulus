@@ -6,7 +6,7 @@
 %>
 <span class="timeline__fill" data-action="<%= action %>" <%= data_attrs(assignment_week) %>>
   <% unless assignment_week.id == "bench" || assignment_week.id == 0 %>
-    <%= link_to assignment_week.max_billable_hours.to_i , "" %>
+    <%= link_to assignment_week.max_billable_hours.to_i, "", draggable: false %>
     <% if assignment_week.in_the_past? %>
       <br />
       <% color = 'black' %>

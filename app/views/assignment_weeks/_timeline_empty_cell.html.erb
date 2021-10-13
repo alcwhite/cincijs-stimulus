@@ -8,7 +8,8 @@
   <% unless assignment_id == 0 || assignment_id == "bench" %>
     <%= link_to "add new", 
       "", 
-      class: "new-assignment-week-link" 
+      class: "new-assignment-week-link",
+      draggable: false 
     %>
   <% end %>
 </span>
