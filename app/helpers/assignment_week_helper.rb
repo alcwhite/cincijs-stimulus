@@ -7,8 +7,10 @@ module AssignmentWeekHelper
     week_param = "data-drag-assignment-week-week-param=#{assignment_week.week}"
     # sets cell as a cellTarget on the row's controller
     target = "data-drag-assignment-week-target=cell"
+    # sets week to dataset
+    week = "data-week=#{assignment_week.week}"
     # draggable must be set to true (not a boolean attribute)
-    "#{week_param} #{target} draggable=true"
+    "#{week_param} #{target} #{week} draggable=true"
   end
 
   # returns actions for an assignment week cell
@@ -16,8 +18,6 @@ module AssignmentWeekHelper
     drag_start = "dragstart->drag-assignment-week#dragstart"
     drag_enter = "dragenter->drag-assignment-week#dragenter"
     drag_end = "dragend->drag-assignment-week#dragend"
-    # when a drag-assignment-week controller sends out a hightlight event, call this
-    highlight = "drag-assignment-week:highlight->drag-assignment-week#maybeHighlight"
-    "#{drag_start} #{drag_enter} #{drag_end} #{highlight}"
+    "#{drag_start} #{drag_enter} #{drag_end}"
   end
 end

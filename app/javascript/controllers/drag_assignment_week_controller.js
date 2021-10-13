@@ -59,10 +59,7 @@ export default class extends Controller {
       // sets destination week
       this.destinationWeek = event.params.week
       this.cellTargets.forEach((cell) => {
-        // this controller sets up and sends out a CustomEvent called highlight
-        // can also send (detail: {}) along with/instead of target as second argument
-        // this sends the event to each cell separately
-        this.dispatch("highlight", {target: cell})
+        this._maybeHighlight(cell)
       })
     }
   }
@@ -84,13 +81,12 @@ export default class extends Controller {
     }
   }
 
-  // called on custom highlight event
-  // event contains target (the cell being dragged) and params (set in template: {week: week})
-  maybeHighlight(event) {
-    if (this._withinSelectedRange(event.params.week)) {
-      event.target.classList.add(this.selectedClass)
+  // internal: checks whether or not to highlight a cell
+  _maybeHighlight(cell) {
+    if (this._withinSelectedRange(cell.dataset.week)) {
+      cell.classList.add(this.selectedClass)
     } else {
-      event.target.classList.remove(this.selectedClass)
+      cell.classList.remove(this.selectedClass)
     }
   }
 }
