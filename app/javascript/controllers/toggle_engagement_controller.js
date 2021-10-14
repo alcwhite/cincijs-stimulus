@@ -26,6 +26,15 @@ export default class extends Controller {
     return "Hide all"
   }
 
+  // Other new Simulus 3.0.0 updates:
+  // buttonTargetConnected() {
+  //   console.log("button connected")
+  // }
+  // buttonTargetDisconnected() {
+  //   console.log("button disconnected")
+  // }
+  // static get shouldLoad() { return false }
+
   // filters all instantiated controllers to return an array of all individual toggle button controllers
   // identifier is the name of the controller as used in the template
   get indButtons() {
